@@ -43,7 +43,8 @@ sudo apt-get update
 sudo apt-get install -y \
   git ripgrep fd-find lazygit build-essential unzip curl wget \
   nodejs npm python3 pipx fontconfig default-jdk-headless \
-  textlive-latex-base texlive-latex-recommended texlive-latex-extra \
+  texlive-latex-base texlive-latex-recommended texlive-latex-extra \
+  texlive-latex-recommended texlive-lang-portuguese texlive-pictures \
   latexmk zathura zathura-pdf-poppler
 
 # no Debian o bin do fd chama-se 'fdfind'; Neovim espera 'fd'
@@ -64,7 +65,7 @@ else
   tmp="$(mktemp -d)"
   curl -fL --progress-bar \
     "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz" \
-    -o "$temp/nvim.tar.gz"
+    -o "$tmp/nvim.tar.gz"
   tar -xzf "$tmp/nvim.tar.gz" -C "$tmp"
   src="$(find "$tmp" -maxdepth 1 -type d -name 'nvim-linux*' | head -n1)"
   [ -n "$src" ] || die "Layout inesperado no tarball do Neovim."
@@ -121,7 +122,7 @@ else
   warn "Ou clone manualmente: git clone git@github.com:guilhermeheats/lazyvim-config.git ~/.config/lazyvim"
 fi
 
-# --------------------------------------------------------------- 6) config ----------
+# --------------------------------------------------------------- 7) concluído ----------
 info "Concluído!"
 cat <<'FIM'
 
@@ -130,7 +131,7 @@ Próximos passos:
     (Na primeira vez, o lazy.nvim se instala e baixa todos os plugins do 
 lazy-lock.json - Necessita de internet).
   2. Abra arquivos dos tipos que você usa (.tex, .py, .md ...) para o Mason 
-instalar os servidores (textlab, pyright, marksman ...) e o Treesitter 
+instalar os servidores (texlab, pyright, marksman ...) e o Treesitter 
 compilar os parsers.
   3. Confira: :Lazy   |   :Mason   |   :checkhealth
 

@@ -1,13 +1,13 @@
 # LazyVim Isolado - Guia de Replicação
 
-  Configuração pessoal de Neovim (**LazyVim**) rodando isolado com `NVIM_APPNAME=lazyvim`), usada para notas em .md (vault Obsidian), LaTeX com preview (vimtex + zathura) e IDE. 
+  Configuração pessoal de Neovim (**LazyVim**) rodando isolado com (`NVIM_APPNAME=lazyvim`), usada para notas em .md (vault Obsidian), LaTeX com preview (vimtex + zathura) e IDE. 
   Neovim do sistema (`~/.config/nvim`) não é tocado.
 
 ## TL;DR (PC Novo - Debian Base x86_64)
 
 ```bash
 # 1) Clonar este repo (se a pasta ~/.config/lazyvim já existir, remova antes)
-git clone <URL-REPO> ~/.config/lazyvim
+git clone git@github.com:guilhermeheats/lazyvim-config.git ~/.config/lazyvim
 
 # 2) Rodar o instalador (pacotes do sistema, Neovim, fonte ...)
 bash ~/.config/lazyvim/setup.sh
@@ -29,8 +29,8 @@ lazyvim
   Arquivos + Neovim + Internet, **restaura**:
 
 - O `lazy.nvim` se auto-instala e baixa os plugins nas versões exatas do `lazy-lock.json`;
-- O Mason instala os servidores (texlab, pyright, marskman...) sozinho, na primeira vez que você abre um arquivo daquele tipo;
-- O Treesitter compila os parses sozinho (precisa do `gcc`, instalado pelo setup).
+- O Mason instala os servidores (texlab, pyright, marksman...) sozinho, na primeira vez que você abre um arquivo daquele tipo;
+- O Treesitter compila os parsers sozinho (precisa do `gcc`, instalado pelo setup).
 
 ## O que NÃO está no Repositório (Como resolver):
 
@@ -43,7 +43,7 @@ lazyvim
 | Notas (`~/.vault`) e app Obsidian | Backup à parte - é apenas dado |
 
 
-  Não precisa copiar (regenera sozinho): `~/.local/share/lazyvim` (plugins, Mason, parses) e `~/.local/state/lazyvim` (swap, histórico).
+  Não precisa copiar (regenera sozinho): `~/.local/share/lazyvim` (plugins, Mason, parsers) e `~/.local/state/lazyvim` (swap, histórico).
 
 ## Instalação Manual (sem `setup.sh`):
 
@@ -76,7 +76,7 @@ mv ~/.local/opt/nvim-linux-x86_64 ~/.local/opt/nvim-lazy
 
 4. **Lançador**
 
-- Criar o `~/.local/bin/lazyvim`com o contéudo abaixo e `chmod +x`:
+- Criar o `~/.local/bin/lazyvim` com o conteúdo abaixo e `chmod +x`:
 
 ```bash
 #!/usr/bin/env bash
@@ -117,7 +117,7 @@ git -C ~/.config/lazyvim pull
 
 - **`W325: Ignoring swapfile ...`** - existe outra sessão do Neovim com o mesmo arquivo aberto (ela segura o swapfile). Feche a outra sessão ou ignore o aviso).
 - **Ícones Quebrados** - falta a Nerd Font (instale a JetBrainsMono Nerd Font).
-- **`fd` não encontrados** - instale o `fd-find`e crie o link `fd`(Em **Passo 1**).
+- **`fd` não encontrado** - instale o `fd-find`e crie o link `fd`(Em **Passo 1**).
 - **LaTeX não compila** - conferir se o `pdflatex`, `latexmk` e `zathura` estão instalados.
 ---
 
