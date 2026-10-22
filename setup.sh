@@ -44,7 +44,7 @@ sudo apt-get install -y \
   git ripgrep fd-find lazygit build-essential unzip curl wget \
   nodejs npm python3 pipx fontconfig default-jdk-headless \
   texlive-latex-base texlive-latex-recommended texlive-latex-extra \
-  texlive-latex-recommended texlive-lang-portuguese texlive-pictures \
+  texlive-fonts-recommended texlive-lang-portuguese texlive-pictures \
   latexmk zathura zathura-pdf-poppler
 
 # no Debian o bin do fd chama-se 'fdfind'; Neovim espera 'fd'
