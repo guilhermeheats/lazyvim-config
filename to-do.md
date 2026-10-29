@@ -16,7 +16,7 @@
 - [x] Configs versionadas no repo.
   - `terminal/wezterm.lua`, `terminal/kitty.conf`, `terminal/ghostty.conf`
   - Wrapper e helper.
-- [ ] `setup.sh` e `README.md` atualizados.
+- [x] `setup.sh` e `README.md` atualizados.
 ---
 
 ## Neovim:

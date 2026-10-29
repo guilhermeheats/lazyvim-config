@@ -5,6 +5,8 @@ local config = wezterm.config_builder()
 config.font = wezterm.font_with_fallback({
   "MesloLGS NF",
   "JetBrainsMono Nerd Font",
+  "OpenDyslexic Nerd Font",
+  "OpenDyslexic",
 })
 config.font_size = 14.5
 config.line_height = 1.0

@@ -25,6 +25,20 @@ lazyvim
 | `lazyvim.json` | Extras ativos do LazyVim (inclui `lang.tex`) |
 | `lazy-lock.json` | Versões exatas de todos os plugins | 
 | `setup.sh` | Instalador | 
+| `terminal/` | Configs dos terminais (WezTerm, Kitty, Ghostty), wrapper, `.desktop` genérico e helper XFCE |
+
+## Terminais (WezTerm → Kitty → Ghostty)
+
+- **Ordem**: WezTerm (principal) → Kitty (fallback) → Ghostty (terceiro fallback).
+- **Visual**: Dracula, MesloLGS NF (WezTerm 14.5; Kitty/Ghostty 15), opacidade 0.9.
+- **Fontes**: WezTerm e Ghostty usam fallback: `MesloLGS NF → JetBrainsMono Nerd Font → OpenDyslexic Nerd Font → OpenDyslexic`; no Kitty o fallback é automático via fontconfig.
+- **Wrapper**: `~/.local/bin/terminal-emulator.sh` abre o primeiro disponível na ordem acima.
+  - Forçar um: `TERMINAL_EMULATOR=kitty terminal-emulator.sh` (aceita `wezterm`, `kitty`, `ghostty`).
+  - Abrir numa pasta: `terminal-emulator.sh ~/projetos` ou `terminal-emulator.sh --working-directory DIR`.
+  - Rodar um comando: `terminal-emulator.sh -e vim arquivo`.
+  - `TERMINAL_DEBUG=1` imprime o `exec` em vez de abrir janela.
+- **Terminal Padrão (Agnóstico à DE)**: `terminal-emulator.desktop` em `~/.local/share/applications` + `~/.config/xdg-terminals.list` + alternativa `x-terminal-emulator`; por DE: XFCE (helper), GNOME/Unity/Budgie, Cinnamon e MATE (gsettings), LXQt (qtxdg.conf), KDE Plasma (kdeglobals).
+- **Instalação**: O `setup.sh` instala os terminais (apt, com fallback do GitHub) e as fontes (MesloLGS NF, JetBrainsMono NF, JetBrains Mono, OpenDyslexic NF e OpenDyslexic)
 
   Arquivos + Neovim + Internet, **restaura**:
 
@@ -39,7 +53,8 @@ lazyvim
 | Neovim v0.12.6 em `~/.local/opt/nvim-lazy/` | `setup.sh` (baixa o tarball oficial) |
 | Lançador `~/.local/bin/lazyvim` | `setup.sh`(script de 3 linhas) |
 | Pacotes de sistema (LaTeX, Zathura, rg, fd, lazygit, Java...) | `setup.sh` (apt) |
-| Fonte JetBrainsMono Nerd Font | `setup.sh` |
+| Fonte: JetBrainsMono Nerd Font, JetBrains Mono, MesloLGS NF, OpenDyslexic NF | `setup.sh` |
+| Terminais: WezTerm, Kitty e Ghostty (apt ou GitHub) | `setup.sh` |
 | Notas (`~/.vault`) e app Obsidian | Backup à parte - é apenas dado |
 
 

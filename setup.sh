@@ -12,8 +12,11 @@
 #   2) pylatexenc via pipx (fórmulas no .md)
 #   3) Neovim v0.12.6 em ~/.local/opt/nvim-lazy
 #   4) Lançador ~/.local/bin/lazyvim
-#   5) fonte JetBrainsMono Nerd Font
+#   5) Nerd Fonts e Fontes Fallbacks
 #   6) Config em ~/.config/lazyvim/ (clone ou pull)
+#   7) Terminais (WezTerm, Kitty, Ghostty) com fallback
+#   8) Configs dos terminais + registro do terminal padrão por DE
+#   9) Concluído
 # ===============================================================================
 set -euo pipefail
 
@@ -93,7 +96,9 @@ case ":$PATH:" in
 esac
 
 # --------------------------------------------------------------- 5) font -----------
-info "Instalando JetBrainsMono Nerd Font ..."
+info "Instalando fontes (JetBrainsMono NF, MesloLGS NF, OpenDyslexic NF, OpenDyslexic) ..."
+
+# 5a) JetBrainsMono Nerd Font (terminais - ícones)
 fontdir="$HOME/.local/share/fonts/JetBrainsMonoNerdFont"
 mkdir -p "$fontdir"
 tmp="$(mktemp -d)"
@@ -101,14 +106,48 @@ if curl -fL --progress-bar \
   "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip" \
   -o "$tmp/font.zip"; then
   unzip -oq "$tmp/font.zip" -d "$fontdir"
-  fc-cache -f "$fontdir" >/dev/null
-  info "Fonte instalada em $fontdir"
 else
-  warn "Não foi possível realizar o download da fonte - Instale manualmente."
+  warn \
+  "Não foi possível baixar JetBrainsMono.zip - Baixe manualmente em https://github.com/ryanoasis/nerd-fonts/releases/latest"
 fi
 rm -rf "$tmp"
 
-# --------------------------------------------------------------- 6) config ----------
+# 5b) JetBrainsMono (simples - system)
+if ! sudo apt-get install -y fonts-jetbrains-mono; then
+  warn "fonts-jetbrains-mono indisponível - Baixe manualmente em https://www.jetbrains.com/lp/mono (ou instale o .ttf daqui)"
+fi
+
+# 5c) MesloLGS NF (Fonte principal)
+fontdir="$HOME/.local/share/fonts/MesloLGS"
+mkdir -p "$fontdir"
+base="https://github.com/romkatv/powerlevel10k-media/raw/master"
+for f in "MesloLGS%20NF%20Regular.ttf" "MesloLGS%20NF%20Bold.ttf" \
+         "MesloLGS%20NF%20Italic.ttf" "MesloLGS%20NF%20Bold%20Italic.ttf"; do
+    curl -fL --progress-bar "$base/$f" -o "$fontdir/${f//%20/ }" ||
+      warn "Falha ao baixar $f - Baixe manualmente em https://github.com/romkatv/powerlevel10k-media"
+done
+
+# 5d) OpenDyslexic Nerd Font
+fontdir="$HOME/.local/share/fonts/OpenDyslexicNerdFont"
+mkdir -p "$fontdir"
+tmp="$(mktemp -d)"
+if curl -fL --progress-bar \
+   "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/OpenDyslexic.zip" \
+   -o "$tmp/font.zip"; then
+   unzip -oq "$tmp/font.zip" -d "$fontdir"
+else
+  warn "Não foi possível baixar OpenDyslexic.zip - Baixe manualmente em https://github.com/ryanoasis/nerd-fonts/releases/latest"
+fi
+rm -rf "$tmp"
+
+# 5e) OpenDyslexic (simples - system)
+if ! sudo apt-get install -y fonts-opendyslexic; then
+  warn "fonts-opendyslexic indisponível - Baixe manualmente em https://opendyslexic.org/"
+fi
+
+fc-cache -f >/dev/null
+
+# --------------------------------------------------------------- 6) config ------------
 if [ -d "$CONFIG_DIR/.git" ]; then
   info "Config já existe em $CONFIG_DIR - Atualizando com o 'git pull' ..."
   git -C "$CONFIG_DIR" pull --ff-only || warn "'git pull' falhou - Atualize manualmente."
@@ -122,7 +161,167 @@ else
   warn "Ou clone manualmente: git clone git@github.com:guilhermeheats/lazyvim-config.git ~/.config/lazyvim"
 fi
 
-# --------------------------------------------------------------- 7) concluído ----------
+# --------------------------------------------------------------- 7) terminais ----------
+info "instalando terminais (WezTerm, Kitty, Ghostty) ..."
+
+have_term() { command -v "$1" >/dev/null 2>&1; }
+
+# --- Kitty: apt (trixie) -> GitHub (txz portátil) ---
+if have_term kitty; then
+  info "kitty já instalado: $(kitty --version | head -n1)"
+elif sudo apt-get install -y kitty >/dev/null; then
+  info "kitty instalado via apt."
+else 
+  warn "Kitty via apt falhou - Baixando do GitHub ..."
+  ver=$(curl -fsSL https://api.github.com/repos/kovidgoyal/kitty/releases/latest \
+    | grep -oE '"tag_name": "v[^"]+"' | head -1 | cut -d'"' -f4)
+  ver="${ver#v}"
+  url="https://github.com/kovidgoyal/kitty/releases/download/v${ver}/kitty-${ver}-x86_64.txz"
+  tmp="$(mktemp -d)"
+  if curl -fL --progress-bar "$url" -o "$tmp/kitty.txz" && tar -xf "$tmp/kitty.txz" -C "$tmp"; then
+    mkdir -p "$HOME/.local/opt"
+    rm -rf "$HOME/.local/"
+    mv "$tmp/kitty-${ver}-x86_64" "$HOME/.local/opt/kitty"
+    ln -sf "$HOME/.local/opt/kitty/bin/kitty" "$HOME/.local/bin/kitty"
+    ln -sf "$HOME/.local/opt/kitty/bin/kitten" "$HOME/.local/bin/kitten"
+    warn "kitty portátil instalado em ~/.local/opt/kitty (atualizações manuais)."
+  else
+    warn "Falha no Download do Kitty - Instale manualmente: https://github.com/kovidgoyal/kitty/releases"
+  fi
+  rm -rf "$tmp"
+fi
+
+# --- WezTerm: apt (futuro) -> GitHub (.deb Debian12) ---
+if have_term wezterm; then
+  info "WezTerm já instalado: $(wezterm --version | head -n1)"
+elif sudo apt-get install -y wezterm >/dev/null 2>&1; then
+  info "WezTerm instalado via apt."
+else
+  warn "WezTerm via apt falhou - Baixando o .deb do GitHub ..."
+  ver="20240203-110809-5046fc22"
+  url="https://github.com/wezterm/wezterm/releases/download/${ver}/wezterm-${ver}.Debian12.deb"
+  tmp="$(mktemp -d)"
+  if curl -fL --progress-bar "$url" -o "$tmp/wezterm.deb"; then
+    sudo apt-get install -y "$tmp/wezterm.deb" ||
+      warn "Não foi possível instalar o .deb - Tente manualmente: $url"
+  else
+    warn "Falha no download do WezTerm - Instale manualmente: https://github.com/wezterm/wezterm/releases"
+  fi
+  rm -rf "$tmp"
+fi
+
+# --- Ghostty: apt (futuro) -> GitHub (mkasberg, .deb trixie) ---
+if have_term ghostty ;then
+  info "Ghostty já instalado: $(ghostty --version | head -n1)"
+elif sudo apt-get install -y ghostty >/dev/null 2>&1; then
+  info "Ghostty instalado via apt."
+else 
+  warn "Ghostty via apt falhou - Baixando o .deb do GitHub (mkasberg/ghostty-ubuntu) ..."
+  url=$(curl -fsSL https://api.github.com/repos/mkasberg/ghostty-ubuntu/releases/latest \
+    | grep -oE '"browser_download_url": "[^"]*_amd64_trixie\.deb"' | head -1 | cut -d'"' -f4)
+  tmp="$(mktemp -d)"
+  if [ -n "$url" ] && curl -fL --progress-bar "$url" -o "$tmp/ghostty.deb"; then
+    sudo apt-get install -y "$tmp/ghostty.deb" || 
+      warn "Não foi possível instalar o .deb - Tente manualmente: $url"
+  else
+    warn "Falha no Download do Ghostty - Instale manualmente: httsp://github.com/mkasberg/ghostty-ubuntu/releases"
+  fi
+  rm -rf "$tmp"
+fi
+
+# -------------------------------------------------------- 8) configs + registro DE -----
+info "Copiando configs dos terminais ..."
+mkdir -p "$HOME/.config/wezterm" "$HOME/.config/kitty" "$HOME/.config/ghostty"
+cp "$CONFIG_DIR/terminal/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
+cp "$CONFIG_DIR/terminal/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+cp "$CONFIG_DIR/terminal/ghostty.conf" "$HOME/.config/ghostty/config"
+
+info "Instalando wrapper e .desktop ..."
+install -m 755 "$CONFIG_DIR/terminal/terminal-emulator.sh" "$HOME/.local/bin/terminal-emulator.sh"
+mkdir -p "$HOME/.local/share/applications"
+sed "s|/home/guilherme-heats|$HOME|g" \
+  "$CONFIG_DIR/terminal/terminal-emulator.desktop" \
+  > "$HOME/.local/share/applications/terminal-emulator.desktop"
+chmod 644 "$HOME/.local/share/applications/terminal-emulator.desktop"
+
+mkdir -p "$HOME/.local/share/xfce4/helpers"
+sed "s|/home/guilherme-heats/|$HOME|g" \
+  "$CONFIG_DIR/terminal/custom-TerminalEmulator.desktop" \
+  > "$HOME/.local/share/xfce4/helpers/custom-TerminalEmulator.desktop"
+chmod 644 "$HOME/.local/share/xfce4/helpers/custom-TerminalEmulator.desktop"
+
+# --- spec XDG (xdg-terminal-exec) - Universal ---
+printf 'terminal-emulator.desktop\n' > "$HOME/.config/xdg-terminals.list"
+
+# --- Fallback universal do Deian ---
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator \
+  "$HOME/.local/bin/terminal-emulator.sh" 60 || 
+  warn "Não foi possível registrar x-terminal-emulator."
+
+# --- Registro do terminal padrão por DE ---
+desktop_lc="$(printf '%s' "${XDG_CURRENT_DESKTOP:-}" | tr 'A-Z' 'a-z')"
+case "$desktop_lc" in
+  *xfce*)
+    rc="$HOME/.config/xfce4/help.rc"
+    mkdir -p "$(dirname "$rc")"
+    touch "$rc"
+    if grep -q '^TerminalEmulator=' "$rc";then
+      sed -i 's|^TerminalEmulator=.*|TerminalEmulator=custom-TerminalEmulator|' "$rc"
+    else 
+      printf 'TerminalEmulator=custom-TerminalEmulator\n' >> "$rc"
+    fi
+    ;;
+  *gnome*|*unity*|*budgie*)
+    gsettings set org.gnome.desktop.default-applications.terminal exec "$HOME/.local/bin/terminal-emulator.sh" \
+      || warn "gsettings falhou."
+    gsettings set org.gnome.desktop.default-applications.terminal exec-arg '' \
+      || warn "gsettings falhou."
+    ;;
+  *cinnamon*)
+    gsettings set org.cinnamon.desktop.default-applications.terminal exec "$HOME/.local/bin/terminal-emulator.sh" \
+      || warn "gsettings falhou."
+    gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg '' \
+      || warn "gsettings falhou."
+    ;;
+  *mate*)
+    gsettings set org.mate.applications-terminal exec "$HOME/.local/bin/terminal-emulator.sh" \
+      || warn "gsettings falhou."
+    gsettings set org.mate.applications-terminal exec-arg '' \
+      || warn "gsettings falhou."
+    ;;
+  *lxqt*)
+    for f in "$HOME/.config/lxqt-qtxdg.conf" "$HOME/.config/lxqt/qtxdg.conf"; do
+      mkdir -p "$(dirname "$f")"
+      touch "$f"
+      if grep -q '^TerminalEmulator=' "$f"; then
+        sed -i 's|^TerminalEmulator=.*|TerminalEmulator=terminal-emulator.desktop|' "$f"
+      else 
+        printf '[General]\nTerminalEmulator=terminal-emulator.desktop\n' >> "$f"
+      fi
+    done
+    ;;
+  *kde*)
+    kc=""
+    for c in kwriteconfig6 kwriteconfig5; do
+      command -v "$c" >/dev/null 2>&1 && { kc="$c"; break; }
+    done 
+    if [ -n "$kc" ]; then
+      "$kc" --file kdeglobals --group General --key TerminalApplication terminal-emulator.desktop
+      "$kc" --file kdeglobals --group General --key TerminalService terminal-emulator.desktop
+    else
+      kf="$HOME/.config/kdeglobals"
+      mkdir -p "$(dirname "$kf")"
+      touch "$kf"
+      grep -q '^TerminalApplication=' "$kf" || printf '[General]\nTerminalApplication=terminal-emulator.desktop\n' >> "$kf"
+      grep -q '^TerminalService=' "$kf" || printf 'TerminalService=terminal-emulator.desktop\n' >> "$kf"
+    fi  
+    ;;
+  *)
+    warn "DE '${XDG_CURRENT_DESKTOP:-}' não reconhecida - Registrado só .desktop + xdg-terminals.list + x-terminal-emulator."
+    ;;
+esac
+
+# --------------------------------------------------------------- 9) concluído ----------
 info "Concluído!"
 cat <<'FIM'
 

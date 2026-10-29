@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Terminal Emulator Custom
+GenericName=Terminal Emulator
+Comment=WezTerm with Fallback for Kitty and Ghostty
+Exec=/home/guilherme-heats/.local/bin/terminal-emulator.sh
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;TerminalEmulator;
+StartupNotify=true
+Keywords=shell;prompt;command;commandline;terminal;console;
