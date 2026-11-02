@@ -1,3 +1,14 @@
+local EXCLUDES = {
+  "Games",
+  "Android",
+  "node_modules",
+  "target",
+  ".venv",
+  "venv",
+  "__pycache__",
+  ".cache",
+}
+
 return {
   {
     "folke/snacks.nvim",
@@ -41,7 +52,10 @@ return {
     opts = {
       picker = {
         sources = {
+          files = { exclude = EXCLUDES },
+          grep = { exclude = EXCLUDES },
           explorer = {
+            exclude = EXCLUDES,
             toggles = { dirs_only = { icon = "S", value = true } },
             actions = {
               toggle_dirs_only = function(picker)

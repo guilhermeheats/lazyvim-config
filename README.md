@@ -33,6 +33,7 @@ lazyvim
 - **Ordem**: WezTerm (principal) → Kitty (fallback) → Ghostty (terceiro fallback).
 - **Visual**: Dracula, MesloLGS NF (WezTerm 14.5; Kitty/Ghostty 15), opacidade 0.9.
 - **Fontes**: WezTerm e Ghostty usam fallback: `MesloLGS NF → JetBrainsMono Nerd Font → OpenDyslexic Nerd Font → OpenDyslexic`; no Kitty o fallback é automático via fontconfig.
+- **Scrollback**: 5000 linhas (WezTerm e Kitty; o Ghostty usa o próprio).
 - **Wrapper**: `~/.local/bin/terminal-emulator.sh` abre o primeiro disponível na ordem acima.
   - Forçar um: `TERMINAL_EMULATOR=kitty terminal-emulator.sh` (aceita `wezterm`, `kitty`, `ghostty`).
   - Abrir numa pasta: `terminal-emulator.sh ~/projetos` ou `terminal-emulator.sh --working-directory DIR`.

@@ -40,12 +40,12 @@
 ## Memória:
 - [x] `nvim --embed` identificado como servidor interno do TUI.
   - Não é vazamento.
-- [ ] Limitar a memória do buffer
-  - bigfile/scrollback
-- [ ] Finder subindo muito o consumo de RAM
-  - **Excludes para Games**, Android, node_modules, target, .venv
-- [ ] Medir RSS
-  - Antes e depois do finder
+- [x] Limitar a memória do buffer
+  - bigfile: Snacks (padrão 1.5 MB) já ativo; Scrollback 5000 (WezTerm + Kitty)
+- [x] Finder subindo muito o consumo de RAM
+  - **Excludes**: Games, Android, node_modules, target, .venv, venv, __pycache__, .cache
+- [x] Medir RSS
+  - 24 MB ocioso → 30 MB finder (~) com excludes (antes: ~109 MB)
 ---
 
 ## Repo/Git:

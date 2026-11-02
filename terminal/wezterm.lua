@@ -56,6 +56,7 @@ config.audible_bell = "Disabled"
 
 --- Shell & Render ---
 config.default_prog = { "/usr/bin/zsh", "-l" }
+config.scrollback_lines = 5000
 config.front_end = "OpenGL"
 config.max_fps = 120
 config.check_for_updates = false
