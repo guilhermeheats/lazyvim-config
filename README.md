@@ -26,6 +26,7 @@ lazyvim
 | `lazy-lock.json` | Versões exatas de todos os plugins | 
 | `setup.sh` | Instalador | 
 | `terminal/` | Configs dos terminais (WezTerm, Kitty, Ghostty), wrapper, `.desktop` genérico e helper XFCE |
+| `CHEATSHEET.md` | Referência rápida de atalhos (Snacks, LSP, Obsidian, LaTeX ...) |
 
 ## Terminais (WezTerm → Kitty → Ghostty)
 
@@ -99,7 +100,7 @@ export NVIM_APPNAME=lazyvim
 exec "$HOME/.local/opt/nvim-lazy/bin/nvim" "$@"
 ```
 
-- OBS: garantir que o `~/.local/bin`está no PATH do seu shell.
+- OBS: garantir que o `~/.local/bin` está no PATH do seu shell.
 
 5. **Config**
 - Colocar este repositório em `~/.config/lazyvim/`.
@@ -110,7 +111,7 @@ exec "$HOME/.local/opt/nvim-lazy/bin/nvim" "$@"
 - Abra um `.tex` → instala o `texlab`; Um `.md` → `marksman`; um `.py` → `pyright`; etc.
 - Confira com `:Lazy` (plugins) · `:Mason`(servidores) · `:checkhealth`.
 
-Uso rápido: `\ll` compila o LaTeX e abre no zathura · `:w` atualiza o PDF · `\lv` pula para o ponto no PDF · `\le` lista os erros · `<leader>um` liga/desliga o render das notas.
+Uso rápido: `\ll` compila o LaTeX e abre no zathura · `:w` atualiza o PDF · `\lv` pula para o ponto no PDF · `\le` lista os erros · `<leader>um` liga/desliga o render das notas · `<leader>ff`/`<leader>fD` busca arquivos/pastas · `<leader>us` liga/desliga o spell · todos os atalhos em `CHEATSHEET.md`
 
 ## Atualizar/Publicar:
 

@@ -24,13 +24,17 @@
   - `vim.g.autoformat = false`
 - [x] Corrigir Spell Checking
   - `spelllang = { "pt", "pt_br", "en" }`
-- [ ] Decidir toggle de spell
-  - `<leader>us`, `:setlocal spell!`
-- [ ] Cheatsheet de comandos - Snacks e do Neovim
-- Snacks
+- [x] Decidir toggle de spell
+  - `<leader>us` (Snacks.toggle), `:setlocal spell!`, spell automático em markdown/text/gitcommit/tex
+- [x] Cheatsheet de comandos - Snacks e do Neovim
+- [x] Snacks
   - Adicionar a função do Explorer procurar apenas pastas/diretórios.
-- [ ] Debloat dos plugins padrões do LazyVim
-- [ ] Identificar outros pontos de melhoria
+  - `<leader>fD` → "Find Dirs" (fd), Enter abre a pasta no Explorer
+- [x] Debloat dos plugins padrões do LazyVim
+  - Não necessário: Plugins já são lazy; Nenhum desabilitado.
+- [x] Identificar outros pontos de melhoria
+  - Docs sincronizados (README/CHEATSHEET), example.lua removido, .luarc.json versionado.
+- [x] Atualizar o `README.md` e o `CHEATSHEET.md` - Se precisar, atualizar o `setup.sh`
 ---
 
 ## Memória:
