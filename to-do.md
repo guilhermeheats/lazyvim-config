@@ -49,5 +49,5 @@
 ---
 
 ## Repo/Git:
-- [ ] Versionar todas as mudanças.
-- [ ] Subir para o GitHub.
+- [x] Versionar todas as mudanças.
+- [x] Subir para o GitHub.
