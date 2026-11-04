@@ -8,9 +8,9 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Sintaxe dos Scripts Shell
         run: |
@@ -21,19 +21,19 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq desktop-file-utils
-          desktop-file-validate terminal/terminal-emulator.desktop
+            desktop-file-validate terminal/terminal-emulator.desktop
 
       - name: Stylua
-        uses: JohnnyMorganz/stylua-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: v2.0.2
-          args: --check .
+        run: |
+          curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/download/v2.0.2/stylua-linux-x86_64.zip -o /tmp/stylua.zip
+          unzip -oq /tmp/stylua.zip -d /tmp stylua
+          chmod +x /tmp/stylua
+          /tmp/stylua --check
 
   smoke:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Instalar Neovim
         run: |
@@ -48,5 +48,6 @@ jobs:
           mkdir -p ~/.config
           ln -sfn "$GITHUB_WORKSPACE" ~/.config/lazyvim
           NVIM_APPNAME=lazyvim timeout 300 nvim --headless \
-            "+lua vim.await(150000, function() return require('lazy').stats().loaded > 0 end); assert(require('lazy').stats().loaded > 0, 'plugins não carregam')" \
-            "+qall!" 2>&1 | tail -30
+          "+lua local ok, res = pcall(function() return vim.wait(150000, function() return require('lazy').stats().loaded > 0 end) end); if not ok then print('ERRO: ' .. tostring(res)) end; os.exit(ok and res and 0 or 1)" \
+            > /tmp/smoke.log 2>&1 || { tail -50 /tmp/smoke.log; exit 1; }
+          tail -5 /tmp/smoke.log
