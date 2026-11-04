@@ -1,5 +1,9 @@
 # LazyVim Isolado - Guia de Replicação
 
+[![CI](https://github.com/guilhermeheats/lazyvim-config/actions/workflows/ci.yml/badge.svg)](https://github.com/guilhermeheats/lazyvim-config/actions)
+[![Release](https://img.shields.io/github/v/release/guilhermeheats/lazyvim-config)](https://github.com/guilhermeheats/lazyvim-config/releases)
+[![License](https://img.shields.io/github/license/guilhermeheats/lazyvim-config)](LICENSE)
+
   Configuração pessoal de Neovim (**LazyVim**) rodando isolado com (`NVIM_APPNAME=lazyvim`), usada para notas em .md (vault Obsidian), LaTeX com preview (vimtex + zathura) e IDE. 
   Neovim do sistema (`~/.config/nvim`) não é tocado.
 
