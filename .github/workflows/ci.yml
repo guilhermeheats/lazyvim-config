@@ -28,7 +28,7 @@ jobs:
           curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/download/v2.0.2/stylua-linux-x86_64.zip -o /tmp/stylua.zip
           unzip -oq /tmp/stylua.zip -d /tmp stylua
           chmod +x /tmp/stylua
-          /tmp/stylua --check
+          /tmp/stylua --check .
 
   smoke:
     runs-on: ubuntu-24.04
