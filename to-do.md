@@ -16,8 +16,7 @@
 - [x] Configs versionadas no repo.
   - `terminal/wezterm.lua`, `terminal/kitty.conf`, `terminal/ghostty.conf`
   - Wrapper e helper.
-- [x] `setup.sh` e `README.md` atualizados.
----
+- [x] `setup.sh` e `README.md` atualizados. ---
 
 ## Neovim:
 - [x] Formatação automática ao salvar - Desligada
@@ -51,3 +50,11 @@
 ## Repo/Git:
 - [x] Versionar todas as mudanças.
 - [x] Subir para o GitHub.
+---
+
+## Melhorias Gerais:
+- [ ] Seguir o XDG no `setup.sh`.
+- [ ] Verificar integridade do script de setup.
+  - Através do GitHub Actions - CI
+- [ ] Realizar uma versão do `setup.sh` para o OpenSuse Leap.
+---

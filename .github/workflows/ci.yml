@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sintaxe dos Scripts Shell
+        run: |
+          bash -n setup.sh
+          bash -n terminal/terminal-emulator.sh
+
+      - name: Validar desktop file
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq desktop-file-utils
+          desktop-file-validate terminal/terminal-emulator.desktop
+
+      - name: Stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v2.0.2
+          args: --check .
+
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Neovim
+        run: |
+          curl -fL https://github.com/neovim/neovim/releases/download/v0.12.6/nvim-linux-x86_64.tar.gz -o /tmp/nvim.tar.gz
+          sudo mkdir -p /opt/nvim
+          sudo tar xzf /tmp/nvim.tar.gz -C /opt/nvim --strip-components=1
+          sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
+          nvim --version | head -1
+
+      - name: Smoke Test (Carrega config e plugins)
+        run: |
+          mkdir -p ~/.config
+          ln -sfn "$GITHUB_WORKSPACE" ~/.config/lazyvim
+          NVIM_APPNAME=lazyvim timeout 300 nvim --headless \
+            "+lua vim.await(150000, function() return require('lazy').stats().loaded > 0 end); assert(require('lazy').stats().loaded > 0, 'plugins não carregam')" \
+            "+qall!" 2>&1 | tail -30
