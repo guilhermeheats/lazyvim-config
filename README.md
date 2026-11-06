@@ -45,6 +45,7 @@ lazyvim
   - `TERMINAL_DEBUG=1` imprime o `exec` em vez de abrir janela.
 - **Terminal Padrão (Agnóstico à DE)**: `terminal-emulator.desktop` em `~/.local/share/applications` + `~/.config/xdg-terminals.list` + alternativa `x-terminal-emulator`; por DE: XFCE (helper), GNOME/Unity/Budgie, Cinnamon e MATE (gsettings), LXQt (qtxdg.conf), KDE Plasma (kdeglobals).
 - **Instalação**: O `setup.sh` instala os terminais (apt, com fallback do GitHub) e as fontes (MesloLGS NF, JetBrainsMono NF, JetBrains Mono, OpenDyslexic NF e OpenDyslexic)
+- **Atalhos**: veja [`terminal/CHEATSHEET.md`](terminal/CHEATSHEET.md) - abas, splits, busca e copy mode dos 3 terminais.
 
   Arquivos + Neovim + Internet, **restaura**:
 

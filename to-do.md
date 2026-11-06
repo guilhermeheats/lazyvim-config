@@ -48,13 +48,23 @@
 ---
 
 ## Repo/Git:
-- [x] Versionar todas as mudanças.
-- [x] Subir para o GitHub.
+- [ ] Versionar todas as mudanças.
+- [ ] Subir para o GitHub.
+---
+
+## Backlog:
+- [x] Keybinds do WezTerm
+  - Splits Enter/|, painéis h/j/k/l, redimensionar.
+- [ ] Cheatsheet dos comandos dos terminais.
+  - WezTerm, Kitty, Ghostty.
+- [ ] Wrapper antigo.
+  - `terminal-emulator.sh`
+- [ ] DAP no Python (debugpy).
 ---
 
 ## Melhorias Gerais:
 - [ ] Seguir o XDG no `setup.sh`.
-- [ ] Verificar integridade do script de setup.
+- [x] Verificar integridade do script de setup.
   - Através do GitHub Actions - CI
 - [ ] Realizar uma versão do `setup.sh` para o OpenSuse Leap.
 ---

@@ -61,6 +61,28 @@ config.use_fancy_tab_bar = false
 config.tab_max_width = 30
 config.tab_bar_at_bottom = false
 
+--- Keyboard ---
+config.keys = {
+  --- splits: 'Enter' vertical, '\' horizontal (default 'Ctrl+Alt', unconfortable)
+  { key = "Enter", mods = "CTRL|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+  { key = "|", mods = "CTRL|SHIFT", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+
+  --- navigate between panels (vim keys: h/j/k/l)
+  { key = "h", mods = "CTRL|SHIFT", action = wezterm.action.ActivatePaneDirection("Left") },
+  { key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ActivatePaneDirection("Right") },
+  { key = "k", mods = "CTRL|SHIFT", action = wezterm.action.ActivatePaneDirection("Up") },
+  { key = "j", mods = "CTRL|SHIFT", action = wezterm.action.ActivatePaneDirection("Down") },
+
+  --- resize the active panel
+  { key = "LeftArrow", mods = "CTRL|SHIFT", action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
+  { key = "RightArrow", mods = "CTRL|SHIFT", action = wezterm.action.AdjustPaneSize({ "Right", 5 }) },
+  { key = "UpArrow", mods = "CTRL|SHIFT", action = wezterm.action.AdjustPaneSize({ "Up", 5 }) },
+  { key = "DownArrow", mods = "CTRL|SHIFT", action = wezterm.action.AdjustPaneSize({ "Down", 5 }) },
+
+  --- close only the panel ('Ctrl+Shift+W' close the entire tab)
+  { key = "w", mods = "CTRL|ALT", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
+}
+
 --- Cursor / Ring ---
 config.default_cursor_style = "BlinkingBar"
 config.cursor_blink_rate = 500
