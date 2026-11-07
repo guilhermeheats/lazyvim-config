@@ -48,8 +48,8 @@
 ---
 
 ## Repo/Git:
-- [ ] Versionar todas as mudanças.
-- [ ] Subir para o GitHub.
+- [x] Versionar todas as mudanças.
+- [x] Subir para o GitHub.
 ---
 
 ## Backlog:
@@ -59,7 +59,8 @@
   - WezTerm, Kitty, Ghostty.
 - [x] Housekeeping:
   - `setup.sh` (dotfiles + vault + link do Projects); wrapper antigo.
-- [ ] DAP no Python (debugpy).
+- [x] DAP - dap.core.
+  - Python/Java/C++/TS automáticos.
 ---
 
 ## Melhorias Gerais:
