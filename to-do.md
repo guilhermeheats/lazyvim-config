@@ -55,10 +55,10 @@
 ## Backlog:
 - [x] Keybinds do WezTerm
   - Splits Enter/|, painéis h/j/k/l, redimensionar.
-- [ ] Cheatsheet dos comandos dos terminais.
+- [x] Cheatsheet dos comandos dos terminais.
   - WezTerm, Kitty, Ghostty.
-- [ ] Wrapper antigo.
-  - `terminal-emulator.sh`
+- [x] Housekeeping:
+  - `setup.sh` (dotfiles + vault + link do Projects); wrapper antigo.
 - [ ] DAP no Python (debugpy).
 ---
 

@@ -82,6 +82,19 @@
 | `<leader>xt` / `<leader>xT` | TODOs (todos / TODO+FIX+FIXME) |
 
 ---
+## Debug (DAP)
+| Tecla | Ação |
+|---|---|
+| `<leader>db` | Alternar breakpoint |
+| `<leader>dc` / `<leader>dt` | Rodar/continuar / terminar |
+| `<leader>da` / `<leader>dC` | Rodar com args / até o cursor |
+| `<leader>di` / `<leader>dO` / `<leader>do` | Entrar / passar / sair |
+| `<leader>dk` / `<leader>dj` | Subir / descer a pilha |
+| `<leader>de` / `<leader>dr` | Avaliar expressão / REPL |
+| `<leader>du` / `<leader>dw` | UI do DAP / widgets |
+| `<leader>dPt` / `<leader>dPc` | Depurar método/classe de teste (Python) |
+
+---
 ## Toggles (u)
 | Tecla | Ação |
 |---|---|
